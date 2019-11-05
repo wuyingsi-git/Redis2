@@ -27,6 +27,17 @@ public class RedisDemo1 {
         List<Map<String,String>> articles = getArticles(conn, 1);
         printArticles(articles);
 
+        List<Map<String,String>> articles2 = getArticlesByVote(conn, 1);
+        printArticles(articles2);
+
+    }
+
+    public List<Map<String,String>> getArticles(Jedis conn, int page) {
+        return getArticles(conn,page,"time:");
+    }
+
+    public List<Map<String,String>> getArticlesByVote(Jedis conn, int page) {
+        return getArticles(conn,page,"vote:");
     }
 
     public String postArticle(Jedis conn, String user, String title, String link) {
