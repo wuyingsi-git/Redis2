@@ -21,12 +21,12 @@ public class RedisDemo1 {
 //                conn, "username2", "A title2", "http://www.google.com");
 //        System.out.println("We posted a new article with id: " + articleId);
 
-//        String articleId = "1";
-//        articleVote(conn, "other_user", "article:" + articleId);
+        String articleId = "1";
+        articleVote(conn, "other_user", "article:" + articleId);
 
         List<Map<String,String>> articles = getArticles(conn, 1);
         printArticles(articles);
-        assert articles.size() >= 1;
+
     }
 
     public String postArticle(Jedis conn, String user, String title, String link) {
@@ -73,13 +73,13 @@ public class RedisDemo1 {
         }
     }
 
-    public List<Map<String,String>> getArticles(Jedis conn, int page) {
+    public List<Map<String,String>> getArticles(Jedis conn, int page,String order) {
         //1、设置获取文章的起始索引和结束索引。
         int start = (page - 1) * ARTICLES_PER_PAGE;
         int end = start + ARTICLES_PER_PAGE - 1;
 
         //2、获取多个文章ID
-        Set<String> ids = conn.zrevrange("vote:", start, end);
+        Set<String> ids = conn.zrevrange(order, start, end);
         List<Map<String,String>> articles = new ArrayList<Map<String,String>>();
         for (String id : ids){
             //3、根据文章ID获取文章的详细信息
